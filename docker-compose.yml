@@ -1,0 +1,12 @@
+version: '2.1'
+services:
+    jupyter:
+        image: docker-jupyter-extensible:latest
+        restart: 'no'
+        volumes:
+            - ./notebooks:/home/jovyan/notebooks
+        ports:
+            - "8888:8888"
+        environment:
+            NB_UID: ${EUID}
+            NB_GID: ${GROUPS}
