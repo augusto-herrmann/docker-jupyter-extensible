@@ -81,7 +81,7 @@ packages installed are also intended as examples for you to edit.
    permissions as your user:
    
    ```
-   $ printf "UID=$(id -u)\nGID=$(id -g)\n"
+   $ printf "UID=$(id -u)\nGID=$(id -g)\n" > .env
    ```
 
    This will allow you to use the `notebooks` folder both inside and
