@@ -2,15 +2,15 @@
 # Extensible Docker image for Jupyter Notebook/Lab
 
 Most tutorials for using Jupyer Nootebook or Jupyter Lab end when you get
-Jupyter running. But, in the real world applications, you will also want
-to install your own system and Python packages, and it may not be obvious
-how to do it.
+Jupyter running. But, in real world applications, you will also want to
+set up your own system configuration parameters, install your own system and
+Python packages, and it may not be obvious how to do it.
 
 This repository intends to show you an example of a Docker file where you
-can configure the packages you want and then build it yourself. Here we are
-going to use `jupyter/scipy-notebook` as a base image, but you can easily
-change that by editing the `Dockerfile`. The system configuration and packages
-installed are also intended as examples for you to edit.
+can configure the packages you want and then build your own Docker image.
+Here we are going to use `jupyter/scipy-notebook` as a base image, but you can
+easily change that by editing the `Dockerfile`. The system configuration and
+packages installed are also intended as examples for you to edit.
 
 ## Getting started
 
@@ -18,67 +18,71 @@ installed are also intended as examples for you to edit.
 
 2. Edit the `Dockerfile` and choose a base image. The default is:
 
-```
-FROM jupyter/scipy-notebook
-```
+   ```
+   FROM jupyter/scipy-notebook
+   ```
 
-   which includes Pandas, numpy and a few other things. To find a Docker image
+   which includes [Pandas](https://pandas.pydata.org/),
+   [NumPy](https://numpy.org/) and a few other things. To find a Docker image
    that best suits your needs, take a look at the
-   [Jupyter Docker Stacks documentation](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html)
+   [Jupyter Docker Stacks documentation](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html).
 
 3. At the following section of the `Dockerfile`, choose the system
    configuration you want to do. In this example, we configure the system
-   locale to use both `en_US.UTF-8` (English, US) and `pt_BR.UTF-8` (Brazilian
-   Portuguese) locales.
+   locales to use both `en_US.UTF-8` (English, US) and `pt_BR.UTF-8`
+   (Brazilian Portuguese) locales.
    
-```
-# install the locales you want to use
-RUN set -ex \
-    && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
-    && sed -i 's/^# pt_BR.UTF-8 UTF-8$/pt_BR.UTF-8 UTF-8/g' /etc/locale.gen \
-    && locale-gen en_US.UTF-8 pt_BR.UTF-8 \
-    && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
-```
+   ```
+   # install the locales you want to use
+   RUN set -ex \
+      && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
+      && sed -i 's/^# pt_BR.UTF-8 UTF-8$/pt_BR.UTF-8 UTF-8/g' /etc/locale.gen \
+      && locale-gen en_US.UTF-8 pt_BR.UTF-8 \
+      && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
+   ```
 
 4. At the following section of the `Dockerfile`, choose the Python packages
-   and Jupyter Lab extensions you need. For this example, we're using the
-   data visualization tool Plotly and the map plotting package Folium.
+   and
+   [Jupyter Lab extensions](https://jupyterlab.readthedocs.io/en/stable/user/extensions.html)
+   you need. For this example, we're using the data visualization tool
+   [Plotly](https://plotly.com/python/) and the map plotting package
+   [Folium](https://python-visualization.github.io/folium/).
    
-```
-# install Python packages you often use
-RUN set -ex \
-    && conda install --quiet --yes \
-    # choose the python packages you need
-    'plotly==4.9.0' \
-    'folium==0.11.0' \
-    && conda clean --all -f -y \
-    # install jupyter lab extensions you need
-    && jupyter labextension install jupyterlab-plotly@4.9.0 --no-build \
-    && jupyter lab build -y \
-    && jupyter lab clean -y \
-    && rm -rf "/home/${NB_USER}/.cache/yarn" \
-    && rm -rf "/home/${NB_USER}/.node-gyp" \
-    && fix-permissions "${CONDA_DIR}" \
-    && fix-permissions "/home/${NB_USER}"
-```
+   ```
+   # install Python packages you often use
+   RUN set -ex \
+      && conda install --quiet --yes \
+      # choose the python packages you need
+      'plotly==4.9.0' \
+      'folium==0.11.0' \
+      && conda clean --all -f -y \
+      # install jupyter lab extensions you need
+      && jupyter labextension install jupyterlab-plotly@4.9.0 --no-build \
+      && jupyter lab build -y \
+      && jupyter lab clean -y \
+      && rm -rf "/home/${NB_USER}/.cache/yarn" \
+      && rm -rf "/home/${NB_USER}/.node-gyp" \
+      && fix-permissions "${CONDA_DIR}" \
+      && fix-permissions "/home/${NB_USER}"
+   ```
 
-Every time you want to install a new Python package, you must edit this file
-again and also execute the next step.
+   Every time you want to install a new Python package, you must edit this file
+   again and also execute the next step.
 
 5. Build the Docker container with the following command:
 
-```
-$ docker build --rm -t docker-jupyter-extensible .
-```
+   ```
+   $ docker build --rm -t docker-jupyter-extensible .
+   ```
 
-   This should take a while.
+   This should take a while to finish.
 
 6. Create a `.env` file so that the container can use the same user
    permissions as your user:
    
-```
-$ printf "EUID=$EUID\nGROUPS=$GROUPS" > .env
-```
+   ```
+   $ printf "UID=$(id -u)\nGID=$(id -g)\n"
+   ```
 
    This will allow you to use the `notebooks` folder both inside and
    outside the container.
@@ -87,10 +91,10 @@ $ printf "EUID=$EUID\nGROUPS=$GROUPS" > .env
    this step.
    
    Run the container with
-   
-```
-$ docker-compose up
-```
+      
+   ```
+   $ docker-compose up
+   ```
 
    **Note:** After you have something important in the `notebooks` folder, I
    highly recommend you back it up often. The container once for me deleted

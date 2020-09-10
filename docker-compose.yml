@@ -8,5 +8,5 @@ services:
         ports:
             - "8888:8888"
         environment:
-            NB_UID: ${EUID}
-            NB_GID: ${GROUPS}
+            NB_UID: ${UID}
+            NB_GID: ${GID}
