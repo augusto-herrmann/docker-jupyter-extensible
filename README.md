@@ -1,7 +1,7 @@
 
 # Extensible Docker image for Jupyter Notebook/Lab
 
-Most tutorials for using Jupyer Nootebook or Jupyter Lab end when you get
+Most tutorials for using Jupyter Notebook or Jupyter Lab end when you get
 Jupyter running. But, in real world applications, you will also want to
 set up your own system configuration parameters, install your own system and
 Python packages, and it may not be obvious how to do it.
