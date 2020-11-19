@@ -32,6 +32,7 @@ RUN set -ex \
     # choose the python packages you need
     'plotly==4.9.0' \
     'folium==0.11.0' \
+    'python-slugify[unidecode]==4.0.1' \
     && conda clean --all -f -y \
     # install jupyter lab extensions you need
     && jupyter labextension install jupyterlab-plotly@4.9.0 --no-build \
