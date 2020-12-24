@@ -43,7 +43,11 @@ RUN set -ex \
     && fix-permissions "${CONDA_DIR}" \
     && fix-permissions "/home/${NB_USER}"
 
-# Instala dependências
+# install other dependencies
+# 
+# For quick experimentation, you can also install Python packages with
+# pip by including the package references in requirements.txt.
+# However, the recommended way to add packages is in the section above.
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
