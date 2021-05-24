@@ -30,12 +30,12 @@ USER $NB_UID
 RUN set -ex \
     && conda install --quiet --yes \
     # choose the python packages you need
-    'plotly==4.9.0' \
+    'plotly==4.14.3' \
     'folium==0.11.0' \
     'python-slugify[unidecode]==4.0.1' \
     && conda clean --all -f -y \
     # install jupyter lab extensions you need
-    && jupyter labextension install jupyterlab-plotly@4.9.0 --no-build \
+    && jupyter labextension install jupyterlab-plotly@4.14.3 --no-build \
     && jupyter lab build -y \
     && jupyter lab clean -y \
     && rm -rf "/home/${NB_USER}/.cache/yarn" \

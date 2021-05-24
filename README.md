@@ -53,7 +53,7 @@ packages installed are also intended as examples for you to edit.
    RUN set -ex \
       && conda install --quiet --yes \
       # choose the python packages you need
-      'plotly==4.9.0' \
+      'plotly==4.14.3' \
       'folium==0.11.0' \
       && conda clean --all -f -y \
       # install jupyter lab extensions you need
