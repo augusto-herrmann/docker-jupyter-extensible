@@ -34,6 +34,7 @@ RUN set -ex \
     'folium==0.11.0' \
     'geopandas==0.9.0' \
     'python-slugify[unidecode]==4.0.1' \
+    'pymongo=3.12.0' \
     && conda clean --all -f -y \
     # install jupyter lab extensions you need
     && jupyter labextension install jupyterlab-plotly@4.14.3 --no-build \
@@ -44,8 +45,19 @@ RUN set -ex \
     && fix-permissions "${CONDA_DIR}" \
     && fix-permissions "/home/${NB_USER}"
 
+# install msodbcsql17
+RUN apt-get update -yqq \
+    && apt-get upgrade -yqq \
+    && apt-get install -yqq --no-install-recommends \
+    curl
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update -yqq \
+    && ACCEPT_EULA=Y apt-get install -yqq msodbcsql17 \
+
 # install other dependencies
-# 
+#
 # For quick experimentation, you can also install Python packages with
 # pip by including the package references in requirements.txt.
 # However, the recommended way to add packages is in the section above.
