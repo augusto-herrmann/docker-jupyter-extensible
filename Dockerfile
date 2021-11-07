@@ -28,15 +28,15 @@ USER $NB_UID
 
 # install Python packages you often use
 RUN set -ex \
-    && conda install --quiet --yes \
+    && conda install --quiet --yes --channel conda-forge \
     # choose the python packages you need
-    'plotly==4.14.3' \
-    'folium==0.11.0' \
-    'geopandas==0.9.0' \
-    'python-slugify[unidecode]==4.0.1' \
+    'plotly==5.3.1' \
+    'folium==0.12.0' \
+    'geopandas==0.10.0' \
+    'python-slugify[unidecode]==5.0.2' \
     && conda clean --all -f -y \
     # install jupyter lab extensions you need
-    && jupyter labextension install jupyterlab-plotly@4.14.3 --no-build \
+    && jupyter labextension install jupyterlab-plotly@5.3.1 --no-build \
     && jupyter lab build -y \
     && jupyter lab clean -y \
     && rm -rf "/home/${NB_USER}/.cache/yarn" \
