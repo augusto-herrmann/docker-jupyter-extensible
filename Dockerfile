@@ -30,6 +30,7 @@ USER $NB_UID
 RUN set -ex \
     && conda install --quiet --yes --channel conda-forge \
     # choose the python packages you need
+    'jupytext==1.13.0' \
     'plotly==5.3.1' \
     'folium==0.12.0' \
     'geopandas==0.10.0' \
