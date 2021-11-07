@@ -18,7 +18,7 @@ packages installed are also intended as examples for you to edit.
 
 2. Edit the `Dockerfile` and choose a base image. The default is:
 
-   ```
+   ```dockerfile
    FROM jupyter/scipy-notebook
    ```
 
@@ -32,7 +32,7 @@ packages installed are also intended as examples for you to edit.
    locales to use both `en_US.UTF-8` (English, US) and `pt_BR.UTF-8`
    (Brazilian Portuguese) locales.
    
-   ```
+   ```dockerfile
    # install the locales you want to use
    RUN set -ex \
       && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
@@ -48,7 +48,7 @@ packages installed are also intended as examples for you to edit.
    [Plotly](https://plotly.com/python/) and the map plotting package
    [Folium](https://python-visualization.github.io/folium/).
    
-   ```
+   ```dockerfile
    # install Python packages you often use
    RUN set -ex \
       && conda install --quiet --yes \
@@ -71,8 +71,8 @@ packages installed are also intended as examples for you to edit.
 
 5. Build the Docker container with the following command:
 
-   ```
-   $ docker build --rm -t docker-jupyter-extensible .
+   ```bash
+   docker build --rm -t docker-jupyter-extensible .
    ```
 
    This should take a while to finish.
@@ -80,8 +80,8 @@ packages installed are also intended as examples for you to edit.
 6. Create a `.env` file so that the container can use the same user
    permissions as your user:
    
-   ```
-   $ printf "UID=$(id -u)\nGID=$(id -g)\n" > .env
+   ```bash
+   printf "UID=$(id -u)\nGID=$(id -g)\n" > .env
    ```
 
    This will allow you to use the `notebooks` folder both inside and
@@ -92,8 +92,8 @@ packages installed are also intended as examples for you to edit.
    
    Run the container with
       
-   ```
-   $ docker-compose up
+   ```bash
+   docker-compose up
    ```
 
    **Note:** After you have something important in the `notebooks` folder, I
