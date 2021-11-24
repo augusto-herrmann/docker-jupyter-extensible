@@ -31,13 +31,13 @@ RUN set -ex \
     && conda install --quiet --yes --channel conda-forge \
     # choose the python packages you need
     'jupytext==1.13.0' \
-    'plotly==5.3.1' \
+    'plotly==5.4.0' \
     'folium==0.12.0' \
-    'geopandas==0.10.0' \
+    'geopandas==0.10.2' \
     'python-slugify[unidecode]==5.0.2' \
     && conda clean --all -f -y \
     # install jupyter lab extensions you need
-    && jupyter labextension install jupyterlab-plotly@5.3.1 --no-build \
+    && jupyter labextension install jupyterlab-plotly@5.4.0 --no-build \
     && jupyter lab build -y \
     && jupyter lab clean -y \
     && rm -rf "/home/${NB_USER}/.cache/yarn" \
