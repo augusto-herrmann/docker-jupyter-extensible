@@ -53,11 +53,11 @@ packages installed are also intended as examples for you to edit.
    RUN set -ex \
       && conda install --quiet --yes \
       # choose the python packages you need
-      'plotly==4.14.3' \
-      'folium==0.11.0' \
+      'plotly==5.12.0' \
+      'folium==0.14.0' \
       && conda clean --all -f -y \
       # install jupyter lab extensions you need
-      && jupyter labextension install jupyterlab-plotly@4.9.0 --no-build \
+      && jupyter labextension install jupyterlab-plotly@5.12.0 --no-build \
       && jupyter lab build -y \
       && jupyter lab clean -y \
       && rm -rf "/home/${NB_USER}/.cache/yarn" \
