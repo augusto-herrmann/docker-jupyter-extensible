@@ -16,7 +16,7 @@ packages installed are also intended as examples for you to edit.
 
 1. Install Docker.
 
-2. Edit the `Dockerfile` and choose a base image. The default is:
+2. (OPTIONAL) Edit the `Dockerfile` and choose a base image. The default is:
 
    ```dockerfile
    FROM jupyter/scipy-notebook
@@ -27,7 +27,7 @@ packages installed are also intended as examples for you to edit.
    that best suits your needs, take a look at the
    [Jupyter Docker Stacks documentation](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html).
 
-3. At the following section of the `Dockerfile`, choose the system
+3. (OPTIONAL) At the following section of the `Dockerfile`, choose the system
    configuration you want to do. In this example, we configure the system
    locales to use both `en_US.UTF-8` (English, US) and `pt_BR.UTF-8`
    (Brazilian Portuguese) locales.
@@ -41,12 +41,11 @@ packages installed are also intended as examples for you to edit.
       && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
    ```
 
-4. At the following section of the `Dockerfile`, choose the Python packages
-   and
+4. (OPTIONAL) At the following section of the `Dockerfile`, choose any
    [Jupyter Lab extensions](https://jupyterlab.readthedocs.io/en/stable/user/extensions.html)
-   you need. For this example, we're using the data visualization tool
-   [Plotly](https://plotly.com/python/) and the map plotting package
-   [Folium](https://python-visualization.github.io/folium/).
+   you need. For this example, we're adding using the data visualization tool
+   [Plotly](https://plotly.com/python/) and an extension to save your notebooks
+   as text files called [Jupytext](https://jupytext.readthedocs.io/).
    
    ```dockerfile
    # install Python packages you often use
@@ -69,7 +68,12 @@ packages installed are also intended as examples for you to edit.
    Every time you want to install a new Python package, you must edit this file
    again and also execute the next step.
 
-5. Build the Docker container with the following command:
+5. (OPTIONAL) At `requirements.txt`, simply add (or uncomment) the Python packages you
+   need. For example, for the map plotting package
+   [Folium](https://python-visualization.github.io/folium/), uncomment the
+   line containing Folium.
+
+6. Build the Docker container with the following command:
 
    ```bash
    docker build --rm -t docker-jupyter-extensible .
@@ -77,7 +81,7 @@ packages installed are also intended as examples for you to edit.
 
    This should take a while to finish.
 
-6. Create a `.env` file so that the container can use the same user
+7. Create a `.env` file so that the container can use the same user
    permissions as your user:
    
    ```bash
@@ -87,7 +91,7 @@ packages installed are also intended as examples for you to edit.
    This will allow you to use the `notebooks` folder both inside and
    outside the container.
 
-7. Now you're set to go! Every time you want to start Jupyter, start from
+8. Now you're set to go! Every time you want to start Jupyter, start from
    this step.
    
    Run the container with
@@ -102,7 +106,7 @@ packages installed are also intended as examples for you to edit.
    figure out how to set up those containers. YOU HAVE BEEN WARNED. I'm in no
    way responsible if you lose your files.
 
-8. Pay attention to the terminal and look for a link starting with
+9. Pay attention to the terminal and look for a link starting with
    `http://127.0.0.1:8888` that also contains an access token. Open this
    link on a browser to use Jupyter Notebook. If you want to use Jupyter Lab,
    just change the URL afterwards to `http://127.0.0.1:8888/lab`.
